@@ -4,4 +4,4 @@ spring:
   application:
     name: springcloud-config-server
   profiles:
-    active: native
+    active: prod
