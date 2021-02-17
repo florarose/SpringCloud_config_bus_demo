@@ -1,18 +1,21 @@
-# SpringCloud_config_bus_demo
-定义：
+
+# 定义：
+
 Spring Cloud Config 提供了配置中心的功能，但是需要配合 git、svn 或外部存储（例如各种数据库），可以说是动态获取Git、SVN、本地的配置文件的一种工具。
-实现一：SpringCloud Config也支持本地参数配置的获取。
+
+# 实现一：SpringCloud Config也支持本地参数配置的获取。
+
 如果使用本地存储的方式，在 application.yml 文件添加 spring.profiles.active=native 配置即可，它会从项目的 resources路径下读取配置文件。如果是读取指定的配置文件，那么可以使用 spring.cloud.config.server.native.searchLocations = file:D:/properties/ 来读取。
-第一步:在idea中创建项目，包括一个总项目，两个子项目。目录如下:
-
-根pom如下:
-
+## 第一步: 在idea中创建项目，包括一个总项目，两个子项目。目录如下:
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210214183804455.png#pic_center)
+###  根pom如下:
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <groupId>org.example</groupId>
     <artifactId>SpringCloud_config_bus_demo</artifactId>
     <packaging>pom</packaging>
@@ -52,10 +55,11 @@ Spring Cloud Config 提供了配置中心的功能，但是需要配合 git、sv
         </repository>
     </repositories>
 </project>
-
-第二步，构建Config-Server,目录结构如下：
-
-1、pom 文件:
+```
+## 第二步，构建Config-Server,目录结构如下：
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210214183950821.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dpbmQxX3JhaW4=,size_16,color_FFFFFF,t_70#pic_center)
+### 1、pom 文件:
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -85,7 +89,6 @@ Spring Cloud Config 提供了配置中心的功能，但是需要配合 git、sv
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -94,10 +97,10 @@ Spring Cloud Config 提供了配置中心的功能，但是需要配合 git、sv
             </plugin>
         </plugins>
     </build>
-
 </project>
-
-2、启动类:
+```
+### 2、启动类:
+```java
 package com.springcloud.configServer;
 
 import org.springframework.boot.SpringApplication;
@@ -119,9 +122,10 @@ public class SpringCloudConfigServerApplication {
         SpringApplication.run(SpringCloudConfigServerApplication.class, args);
     }
 }
-
-3、Config-Server自己的配置文件，包括bootstrap.yml 和 application-prod.yml：
-bootstrap.yml :
+```
+### 3、Config-Server自己的配置文件，包括bootstrap.yml 和 application-prod.yml：
+#### bootstrap.yml :
+```yaml
 server:
   port: 8888
 spring:
@@ -129,30 +133,33 @@ spring:
     name: springcloud-config-server
   profiles:
     active: native
+```
+#### application-prod.yml，这个配置，在bootstrap.yml 中 profiles 激活的不是native，才会生效：
 
-
-application-prod.yml，这个配置，在bootstrap.yml 中 profiles 激活的不是native，才会生效：
+```yaml
 spring:
   cloud:
     config:
       server:
         git:
           uri: https://gitee.com/dream_house_1/MyConfig.git
-          username: 17835059864@163.com
-          password: 460118025
+          username: ********
+          password: ********
           default-label: master #配置文件分支
 #          search-paths: config  #配置文件所在根目录
-
-4、客户端项目的配置文件,application-dev.yml:
+```
+### 4、客户端项目的配置文件,application-dev.yml:
+```yaml
 server:
   port: 8889
 foo: 123123
-
- 	目录:
-
-第三步，构建Config-Client,目录结构如下：
-
-1、pom.xml文件:
+```
+#### 目录:
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210214184353409.png#pic_center)
+## 第三步，构建Config-Client,目录结构如下：
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210214184423210.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dpbmQxX3JhaW4=,size_16,color_FFFFFF,t_70#pic_center)
+### 1、pom.xml文件:
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -194,8 +201,9 @@ foo: 123123
         </plugins>
     </build>
 </project>
-
-2、启动类:
+```
+### 2、启动类:
+```java
 package com.springcloud.configClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -213,9 +221,10 @@ public class SpringCloudConfigClientApplication {
         SpringApplication.run(SpringCloudConfigClientApplication.class, args);
     } 
 }
+```
+### 3、配置文件，bootstrap.yml :
 
-
-3、配置文件，bootstrap.yml :
+```yaml
 spring:
   application:
     name: config-client
@@ -224,8 +233,10 @@ spring:
       uri: http://localhost:8888/
       profile: dev
       label: master
+```
+### 4、ConfigServerConfig,获取配置文件中的内容:
 
-4、ConfigServerConfig,获取配置文件中的内容:
+```java
 package com.springcloud.configClient;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -250,8 +261,10 @@ public class ConfigServerConfig {
         this.foo = foo;
     }
 }
+```
+### 5、GitController，为了测试:
 
-5、GitController，为了测试:
+```java
 package com.springcloud.configClient;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -275,9 +288,24 @@ public class GitController {
         return configServerConfig;
     }
 }
-
-测试：	
-访问地址:
-        	  http://localhost:8889/hi
-结果:
-
+```
+## 测试：
+### 访问地址:
+		http://localhost:8889/hi
+### 结果:
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210214184846473.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dpbmQxX3JhaW4=,size_16,color_FFFFFF,t_70#pic_center)
+#  实现二：SpringCloud Config远程参数配置的获取。
+## 客户端不用做任何修改；即Config-Client不做修改；
+## Config-Server服务端修改:
+### 配置文件目录如下:
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2021021418500179.png#pic_center)
+### bootstrap.yml修改如下:
+```yaml
+server:
+  port: 8888
+spring:
+  application:
+    name: springcloud-config-server
+  profiles:
+    active: prod # 这里的native 改为prod.
+```

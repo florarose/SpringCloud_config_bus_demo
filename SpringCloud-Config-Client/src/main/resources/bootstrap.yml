@@ -1,8 +1,16 @@
 spring:
   application:
-    name: config-client
+    name: SpringCloud-Config-Client
   cloud:
     config:
-      uri: http://localhost:8888/
       profile: dev
       label: master
+      discovery:
+        # 默认false，设为true表示使用注册中心中的配置服务（服务发现）而不自己指定配置服务的地址（即uri）
+        enabled: true
+        # 指向配置中心在Eureka 注册的服务名称（即：spring.application.name）
+        serviceId: SpringCloud-Config-Server
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://root:root@localhost:8866/eureka/

@@ -4,7 +4,13 @@ spring:
       server:
         git:
           uri: https://gitee.com/dream_house_1/MyConfig.git
-          username: 17835059864@163.com
-          password: 460118025
+          username: ********
+          password: ********
           default-label: master #配置文件分支
           search-paths: config  #配置文件所在根目录
+    inetutils:
+      ignoredInterfaces:
+        - docker0
+        - veth.*
+      preferredNetworks:
+        - 192.168

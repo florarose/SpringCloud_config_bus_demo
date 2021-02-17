@@ -1,7 +1,16 @@
 server:
-  port: 8888
+  port: 8877
 spring:
   application:
-    name: springcloud-config-server
+    name: SpringCloud-Config-Server
   profiles:
     active: prod
+eureka:
+  client:
+    service-url:
+      register-with-eureka: true
+      fetch-registry: true
+      defaultZone: http://root:root@localhost:8866/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}

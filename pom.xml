@@ -11,6 +11,7 @@
     <modules>
         <module>SpringCloud-Config-Server</module>
         <module>SpringCloud-Config-Client</module>
+        <module>SpringCloud-eureka</module>
     </modules>
 
     <parent>

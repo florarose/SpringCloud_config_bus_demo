@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="SpringCloud-eureka" />
         <module name="SpringCloud-Config-Client" />
         <module name="SpringCloud-Config-Server" />
       </profile>
@@ -15,6 +16,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="SpringCloud-Config-Client" options="-parameters" />
       <module name="SpringCloud-Config-Server" options="-parameters" />
+      <module name="SpringCloud-eureka" options="-parameters" />
     </option>
   </component>
 </project>
