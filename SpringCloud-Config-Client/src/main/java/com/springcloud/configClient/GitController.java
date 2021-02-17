@@ -18,6 +18,6 @@ public class GitController {
 
     @RequestMapping(value = "/hi")
     public Object hi(){
-        return configServerConfig;
+        return configServerConfig.getFoo();
     }
 }

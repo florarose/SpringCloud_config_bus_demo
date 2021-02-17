@@ -1,6 +1,7 @@
 package com.springcloud.configClient;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Component;
  * @version: 1.0.0
  */
 @Component
+// 标注此类配置在手动刷新时，需要重新向git获取
+@RefreshScope
 public class ConfigServerConfig {
 
 

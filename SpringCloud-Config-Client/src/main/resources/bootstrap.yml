@@ -14,3 +14,10 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://root:root@localhost:8866/eureka/
+
+#开启所有端点 refresh config
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
